@@ -7,3 +7,6 @@
 !/assets/.gitkeep
 /protected/runtime/*
 !/protected/runtime/.gitkeep
+# Локальные настройки темы dev-cs конкретного сервера
+/themes/dev-cs/social.local.php
+/themes/dev-cs/img/logo.png

@@ -145,7 +145,6 @@ $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 		)
 	);
 
-	echo $form->textFieldRow($model,'icq',array('class' => 'span6',));
 	echo $form->dropDownListRow($model,'ashow', array('Нет', 'Да'),array('class' => 'span6',));
 
 	if($model->isNewRecord):

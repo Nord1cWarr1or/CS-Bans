@@ -76,6 +76,7 @@
 								<form method="post" action="<?php echo Yii::app()->createUrl('/site/login')?>" accept-charset="UTF-8">
 									<input style="margin-bottom: 15px;" type="text" placeholder="Логин" id="LoginForm_username" name="LoginForm[username]">
 									<input style="margin-bottom: 15px;" type="password" placeholder="Пароль" id="LoginForm_password" name="LoginForm[password]">
+									<label class="checkbox" style="margin-bottom: 15px; text-align: left; text-transform: none; font-size: 13px;"><input type="hidden" name="LoginForm[rememberMe]" value="0"><input type="checkbox" name="LoginForm[rememberMe]" value="1" checked> Запомнить меня</label>
 									<input type="hidden" value="<?php echo Yii::app()->request->csrfToken?>" name="<?php echo Yii::app()->request->csrfTokenName?>" />
 									<input class="btn btn-primary btn-block" name="yt0" type="submit" value="Войти">
 								</form>

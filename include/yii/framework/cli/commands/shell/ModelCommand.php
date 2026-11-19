@@ -3,9 +3,9 @@
  * ModelCommand class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -121,8 +121,6 @@ EOD;
 
 	/**
 	 * Generate code to put in ActiveRecord class's relations() function.
-	 * @return array indexed by table names, each entry contains array of php code to go in appropriate ActiveRecord class.
-	 *		Empty array is returned if database couldn't be connected.
 	 */
 	protected function generateRelations()
 	{

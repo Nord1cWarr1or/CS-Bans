@@ -68,6 +68,7 @@ class Serverinfo extends CActiveRecord
 	{
 		return array(
 			array('motd_delay, amxban_menu, reasons, timezone_fixx', 'numerical', 'integerOnly'=>true),
+			array('hostname', 'length', 'max'=>100),
 			array('rcon', 'length', 'max'=>32),
 			array('amxban_motd', 'length', 'max'=>250),
 			array('id, timestamp, hostname, address, gametype, rcon, amxban_version, amxban_motd, motd_delay, amxban_menu, reasons, timezone_fixx', 'safe', 'on'=>'search'),

@@ -123,7 +123,7 @@ class GameQ_Buffer
     public function readLast()
     {
         $len           = strlen($this->data);
-        $string        = $this->data{strlen($this->data) - 1};
+        $string        = $this->data[strlen($this->data) - 1];
         $this->data    = substr($this->data, 0, $len - 1);
         $this->length -= 1;
 

@@ -21,7 +21,7 @@ $this->widget('bootstrap.widgets.TbBreadcrumbs', array(
 ));
 
 Yii::app()->clientScript->registerScript('viewdetail', "
-$('.admintr').bind('click', function(){
+$(document).on('click', '.admintr', function(){
 	$('#loading').show();
 	var aid = this.id.substr(6);
 	$.post('".Yii::app()->urlManager->baseUrl."/amxadmins/view/', {'aid': aid}, function(data){
@@ -54,14 +54,6 @@ $('.admintr').bind('click', function(){
 			'value' => '$data->nickname',
 			'htmlOptions' => array(
 				'style' => 'width: 340px;'
-			)
-		),
-		array(
-			'name' => 'icq',
-			'type' => 'raw',
-			'value' => '$data->icq != 0 ? CHtml::encode($data->icq) : "<i>Не задан</i>"',
-			'htmlOptions' => array(
-				'style' => 'width: 100px;'
 			)
 		),
 		array(
@@ -121,33 +113,3 @@ $('.admintr').bind('click', function(){
     )); ?>
 </div>
 <?php $this->endWidget(); ?>
-
-<div style="width: 200px; margin: 0 auto; text-align: center">
-	<?php $this->widget('bootstrap.widgets.TbButton', array(
-        'label'=>'Информация доступа',
-        'url'=>'#',
-        'htmlOptions'=>array(
-			'onclick'=>'$("#info_access").slideToggle("slow"); return false;',
-		),
-    )); ?>
-</div>
-
-<div id="info_access" class="row-fluid" style="display: none">
-	<div class="span6">
-		<h3 class="muted">Права доступа</h3>
-		<?php
-		foreach(Amxadmins::getFlags(TRUE) as $flag => $desc):
-			echo $flag . ' - ' . $desc . '<br />';
-		endforeach;
-		?>
-	</div>
-	<div class="span6">
-		<h3 class="muted">Флаги доступа</h3>
-		a - Кикать игрока при вводе некорректного пароля<br />
-		b - Тег клана<br />
-		c - Для SteamID<br />
-		d - Для IP<br />
-		e - Пароль не требуется (важен только SteamID либо IP )<br />
-		k - Имя или тег (С УчёТом РеГистРа!).
-	</div>
-</div>

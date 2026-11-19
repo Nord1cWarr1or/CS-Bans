@@ -3,9 +3,9 @@
  * CHttpSession class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @link http://www.yiiframework.com/
+ * @link https://www.yiiframework.com/
  * @copyright 2008-2013 Yii Software LLC
- * @license http://www.yiiframework.com/license/
+ * @license https://www.yiiframework.com/license/
  */
 
 /**
@@ -55,7 +55,7 @@
  * @property boolean $isStarted Whether the session has started.
  * @property string $sessionID The current session ID.
  * @property string $sessionName The current session name.
- * @property string $savePath The current session save path, defaults to {@link http://php.net/session.save_path}.
+ * @property string $savePath The current session save path, defaults to {@link https://php.net/session.save_path}.
  * @property array $cookieParams The session cookie parameters.
  * @property string $cookieMode How to use cookie to store session ID. Defaults to 'Allow'.
  * @property float $gCProbability The probability (percentage) that the gc (garbage collection) process is started on every session initialization, defaults to 1 meaning 1% chance.
@@ -115,7 +115,28 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function open()
 	{
 		if($this->getUseCustomStorage())
-			@session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
+		{
+			// PHP 8.4+ deprecates callback-style session_set_save_handler().
+			// Use object-style handler on PHP 7.0+ to avoid deprecation.
+			// CHttpSessionHandler is in a separate file to avoid parse errors on PHP 5.3
+			// where SessionHandlerInterface doesn't exist.
+			if(version_compare(PHP_VERSION, '7.0', '>='))
+			{
+				require_once(dirname(__FILE__) . '/CHttpSessionHandler.php');
+				@session_set_save_handler(new CHttpSessionHandler($this), true);
+			}
+			else
+			{
+				@session_set_save_handler(
+					array($this, 'openSession'),
+					array($this, 'closeSession'),
+					array($this, 'readSession'),
+					array($this, 'writeSession'),
+					array($this, 'destroySession'),
+					array($this, 'gcSession')
+				);
+			}
+		}
 
 		@session_start();
 		if(YII_DEBUG && session_id()=='')
@@ -180,7 +201,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Updates the current session id with a newly generated one .
-	 * Please refer to {@link http://php.net/session_regenerate_id} for more details.
+	 * Please refer to {@link https://php.net/session_regenerate_id} for more details.
 	 * @param boolean $deleteOldSession Whether to delete the old associated session file or not.
 	 * @since 1.1.8
 	 */
@@ -207,7 +228,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @return string the current session save path, defaults to {@link http://php.net/session.save_path}.
+	 * @return string the current session save path, defaults to {@link https://php.net/session.save_path}.
 	 */
 	public function getSavePath()
 	{
@@ -229,7 +250,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @return array the session cookie parameters.
-	 * @see http://us2.php.net/manual/en/function.session-get-cookie-params.php
+	 * @see https://us2.php.net/manual/en/function.session-get-cookie-params.php
 	 */
 	public function getCookieParams()
 	{
@@ -242,7 +263,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Call this method before the session starts.
 	 * @param array $value cookie parameters, valid keys include: lifetime, path,
 	 * domain, secure, httponly, samesite. Note that httponly and samesite is all lowercase.
-	 * @see http://us2.php.net/manual/en/function.session-set-cookie-params.php
+	 * @see https://us2.php.net/manual/en/function.session-set-cookie-params.php
 	 */
 	public function setCookieParams($value)
 	{
@@ -456,6 +477,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method is required by the interface IteratorAggregate.
 	 * @return CHttpSessionIterator an iterator for traversing the session variables.
 	 */
+	#[ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new CHttpSessionIterator;
@@ -475,6 +497,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method is required by Countable interface.
 	 * @return integer number of items in the session.
 	 */
+	#[ReturnTypeWillChange]
 	public function count()
 	{
 		return $this->getCount();
@@ -572,6 +595,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * @param mixed $offset the offset to check on
 	 * @return boolean
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetExists($offset)
 	{
 		return isset($_SESSION[$offset]);
@@ -579,9 +603,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to retrieve element.
+	 * @param mixed $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetGet($offset)
 	{
 		return isset($_SESSION[$offset]) ? $_SESSION[$offset] : null;
@@ -589,9 +614,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer $offset the offset to set element
+	 * @param mixed $offset the offset to set element
 	 * @param mixed $item the element value
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetSet($offset,$item)
 	{
 		$_SESSION[$offset]=$item;
@@ -601,6 +627,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * This method is required by the interface ArrayAccess.
 	 * @param mixed $offset the offset to unset element
 	 */
+	#[ReturnTypeWillChange]
 	public function offsetUnset($offset)
 	{
 		unset($_SESSION[$offset]);

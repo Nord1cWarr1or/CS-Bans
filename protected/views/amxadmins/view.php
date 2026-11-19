@@ -38,7 +38,6 @@ $this->menu=array(
 		'nickname',
 		'steamid',
 		'access',
-		'icq',
 		array(
 			'name' => 'ashow',
 			'value' => $model->ashow == 1 ? 'Да' : 'Нет'

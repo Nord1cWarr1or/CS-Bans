@@ -104,7 +104,7 @@ if($model->ban_length == '-1') {
 		array(
 			'name' => 'player_ip',
 			'type' => 'raw',
-			'value' => $geo['city'] ? CHtml::link(
+			'value' => !empty($geo['city']) ? CHtml::link(
 					$model->player_ip,
 					'#',
 					array(
@@ -539,13 +539,13 @@ $this->widget('bootstrap.widgets.TbGridView', array(
 	<div id="map" style="width:800px; height:400px; marg: 0 auto"></div>
 	<div style="top: -30px">
 		<b>Страна: </b>
-		<?php echo $geo['country'] ?>
+		<?php echo $geo ? CHtml::encode($geo['country']) : '' ?>
 		<br>
 		<b>Регион: </b>
-		<?php echo $geo['region'] ?>
+		<?php echo $geo ? CHtml::encode($geo['region']) : '' ?>
 		<br>
 		<b>Город: </b>
-		<?php echo $geo['city'] ?>
+		<?php echo $geo ? CHtml::encode($geo['city']) : '' ?>
 	</div>
 </div>
 <div class="modal-footer">

@@ -267,7 +267,7 @@ class GameQ
 	 * @throws GameQException
 	 * @return boolean|GameQ
 	 */
-	public function addServer(Array $server_info=NULL)
+	public function addServer(?array $server_info=NULL)
 	{
 		// Check for server type
 		if(!key_exists(self::SERVER_TYPE, $server_info) || empty($server_info[self::SERVER_TYPE]))
@@ -387,7 +387,7 @@ class GameQ
 	 * @param array $servers
 	 * @return GameQ
 	 */
-	public function addServers(Array $servers=NULL)
+	public function addServers(?array $servers=NULL)
 	{
 		// Loop thru all the servers and add them
 		foreach($servers AS $server_info)
@@ -606,7 +606,7 @@ class GameQ
 	 * @param array $instances
 	 * @return boolean
 	 */
-	protected function sendChallenge(Array $instances=NULL)
+	protected function sendChallenge(?array $instances=NULL)
 	{
 		// Loop thru all the instances we need to send out challenges for
 		foreach($instances AS $server_id => $instance)
@@ -657,7 +657,7 @@ class GameQ
 	 * @param array $instances
 	 * @return boolean
 	 */
-	protected function queryServerInfo(Array $instances=NULL)
+	protected function queryServerInfo(?array $instances=NULL)
 	{
 		// Loop all the server instances
 		foreach($instances AS $server_id => $instance)
@@ -744,7 +744,7 @@ class GameQ
 		));
 
 		// Create the socket
-		if(($socket = @stream_socket_client($remote_addr, $errno = NULL, $errstr = NULL, $this->timeout, STREAM_CLIENT_CONNECT, $context)) !== FALSE)
+		if(($socket = @stream_socket_client($remote_addr, $errno, $errstr, $this->timeout, STREAM_CLIENT_CONNECT, $context)) !== FALSE)
 		{
 			// Set the read timeout on the streams
 			stream_set_timeout($socket, $this->timeout);

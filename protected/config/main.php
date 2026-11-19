@@ -86,6 +86,11 @@ return array(
 		'user'=>array(
 			// Аутентификация по куки
 			'allowAutoLogin'=>true,
+			// Куки входа недоступны из JavaScript (раньше это делал .htaccess, nginx его не читает)
+			'identityCookie'=>array('httpOnly'=>true),
+		),
+		'session'=>array(
+			'cookieParams'=>array('httponly'=>true),
 		),
 		// Конфиг (из таблицы {{webconfig}})
 		'config'=>array(

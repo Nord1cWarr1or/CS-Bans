@@ -46,6 +46,7 @@ Yii::app()->clientScript->registerScript('command', '
 	<p class="note">Поля, отмеченные <span class="required">*</span> обязательны к заполнению.</p>
 	<fieldset>
 		<?php echo $form->errorSummary($model); ?>
+			<?php echo $form->textFieldRow($model,'hostname',array('size'=>60,'maxlength'=>100)); ?>
 			<?php echo $form->passwordFieldRow($model,'rcon',array('size'=>32,'maxlength'=>32)); ?>
 			<?php echo $form->textFieldRow($model,'amxban_motd',array('size'=>60,'maxlength'=>250)); ?>
 			<?php echo $form->textFieldRow($model,'motd_delay'); ?>

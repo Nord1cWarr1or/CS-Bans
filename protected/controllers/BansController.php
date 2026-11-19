@@ -96,13 +96,13 @@ class BansController extends Controller
                     false, $context);
                 if($get) {
                     $json = json_decode($get, true);
-                    if (json_last_error() === JSON_ERROR_NONE) {
+                    if (is_array($json) && ($json['status'] ?? '') === 'success') {
                         $geo = array(
-                            'city' => $json['city'],
-                            'region' => $json['regionName'],
-                            'country' => $json['country'],
-                            'lat' => $json['lat'],
-                            'lng' => $json['lon'],
+                            'city' => $json['city'] ?? 'Н/А',
+                            'region' => $json['regionName'] ?? 'Не определен',
+                            'country' => $json['country'] ?? 'Не определен',
+                            'lat' => (float)($json['lat'] ?? 0),
+                            'lng' => (float)($json['lon'] ?? 0),
                         );
                     }
                 }
